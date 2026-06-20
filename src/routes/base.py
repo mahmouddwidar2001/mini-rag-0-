@@ -1,4 +1,6 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter ,Depends
+from helpers.config import get_settings,settings
+
 import os
 base_router = APIRouter(
     prefix="/api/v1",
@@ -7,10 +9,10 @@ base_router = APIRouter(
 
 @base_router.get("/")
 
-async def welcome():
-    app_name = os.getenv('APP_NAME', 'mini-rag')  # Default to 'mini-rag' if not set
-    app_version = os.getenv('APP_VERSION', '0.0.1')  # Default to '0.0.1' if not set
-    
+async def welcome(app_settings : settings = Depends(get_settings)):
+    app_settings = get_settings()
+    app_name = app_settings.APP_NAME
+    app_version = app_settings.APP_VERSION
     return {"message": f"Welcome all to the {app_name} {app_version}!"}
 
 
