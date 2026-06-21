@@ -5,7 +5,7 @@ class settings(BaseSettings):
     APP_VERSION : str
     openai_api_key : str
 
-    FILE_ALLOWED_TYPES : list
+    FILE_ALLOWED_TYPES : list[str]
     FILE_MAX_SIZE : int
 
     class Config:
