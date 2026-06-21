@@ -13,3 +13,4 @@ class settings(BaseSettings):
 
 def get_settings():
     return settings()
+
