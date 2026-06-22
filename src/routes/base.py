@@ -1,6 +1,10 @@
-from fastapi import FastAPI, APIRouter ,Depends
-from helpers.config import get_settings,settings
+from fastapi import FastAPI, APIRouter, Depends
 import os
+from helpers.config import get_settings, Settings
+from time import sleep
+import logging
+
+logger = logging.getLogger('uvicorn.error')
 
 base_router = APIRouter(
     prefix="/api/v1",
@@ -8,10 +12,12 @@ base_router = APIRouter(
 )
 
 @base_router.get("/")
-async def welcome(app_settings : settings = Depends(get_settings)):
-    app_settings = get_settings()
+async def welcome(app_settings: Settings = Depends(get_settings)):
+
     app_name = app_settings.APP_NAME
     app_version = app_settings.APP_VERSION
-    return {"message": f"Welcome all to the {app_name} {app_version}"}
 
-
+    return {
+        "app_name": app_name,
+        "app_version": app_version,
+    }
