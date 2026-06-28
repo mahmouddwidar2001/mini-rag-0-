@@ -32,7 +32,7 @@ async def upload_data(request: Request, project_id: int, file: UploadFile,
         )
     
     project_dir_path = ProjectController().get_project_path(project_id=project_id)
-    file_path = data_controller.generate_file_name(
+    file_path, file_id = data_controller.generate_unique_filepath(
         original_file_name=file.filename,
         project_id=project_id
     )
@@ -54,6 +54,7 @@ async def upload_data(request: Request, project_id: int, file: UploadFile,
         status_code=status.HTTP_200_OK,
         content={
             "signal": ResponseSignal.FILE_UPLOAD_SUCCESS.value,
-            "file_path": file_path
+            "file_path": file_path,
+            "file_id": file_id
         }
     )
